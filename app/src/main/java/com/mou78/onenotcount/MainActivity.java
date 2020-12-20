@@ -1,8 +1,10 @@
 package com.mou78.onenotcount;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -23,19 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView)findViewById(R.id.count);
         saido = (TextView)findViewById(R.id.saido);
-//        count = 0;
-
-//        SharedPreferences pref= getSharedPreferences("countbox", Context.MODE_PRIVATE);
         pref = getSharedPreferences("countbox",MODE_PRIVATE);
         int setCount = pref.getInt("number",0);
         textView.setText(setCount +"");
-//        textView.setText(pref.getInt("number" , 0));
-//////        String name = pref.getInt("number" ,0);
-//        int intValue = pref.getInt("number" , 0);
-//        textView.setText(pref.getInt("number" , 0));
-
-//        pref = getSharedPreferences("countbox", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = pref.edit();
 
 
     }
@@ -48,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("number", setCount);
         editor.commit();
 
-//        int setCount = pref.getInt("number",0);
         textView.setText(setCount +"");
 
 
@@ -71,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("number", setCount);
         editor.commit();
 
-//        int setCount = pref.getInt("number",0);
         textView.setText(setCount +"");
 
 
@@ -93,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("number", setCount);
         editor.commit();
 
-//        int setCount = pref.getInt("number",0);
         textView.setText(setCount +"");
 
 
@@ -116,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("number", setCount);
         editor.commit();
 
-//        int setCount = pref.getInt("number",0);
         textView.setText(setCount +"");
 
 
@@ -139,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("number", setCount);
         editor.commit();
 
-//        int setCount = pref.getInt("number",0);
         textView.setText(setCount +"");
 
 
@@ -162,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("number", setCount);
         editor.commit();
 
-//        int setCount = pref.getInt("number",0);
         textView.setText(setCount +"");
 
 
@@ -241,4 +227,25 @@ public class MainActivity extends AppCompatActivity {
                 saido.setText("30を超えた！！！");
             }
         }
-}
+
+        //カウントした数字を共有
+        public void share(View v){
+
+            int setCount = pref.getInt("number",0);
+            SharedPreferences.Editor editor = pref.edit();
+            SharedPreferences pref= getSharedPreferences("countbox", Context.MODE_PRIVATE);
+            editor.putInt("number", setCount);
+
+        ShareCompat.IntentBuilder builder
+                = ShareCompat.IntentBuilder.from(MainActivity.this);
+        String subject = "カウントした数字について";
+        String bodyText = setCount + "回カウントされました";
+        builder.setSubject(subject)
+                .setText(bodyText)
+                .setType("text/plain");
+        Intent intent = builder.createChooserIntent();
+
+        builder.startChooser();
+            }
+
+    }
